@@ -17,3 +17,44 @@ You have a chance to hear from people who are not just talking about, but buildi
 - [YouTube Playlist](https://go.raybo.org/tfit-youtube)
 - [Podcast Feed - Audio Only](https://go.raybo.org/tfit-feed-audio)
 - [Episode Newsletter](https://go.raybo.org/tfit-newsletter)
+
+---
+## RSS Feed Generator
+
+This repository includes an automated RSS 2.0 feed generator that reads [`feed.yaml`](feed.yaml) and publishes a podcast-directory–compatible `feed.xml` to GitHub Pages.
+
+### How it works
+
+1. **`feed.yaml`** — Single source of truth for the podcast and all episode metadata.
+2. **`generate_feed.py`** — Python script that converts `feed.yaml` into a valid RSS 2.0 feed with Apple Podcasts / iTunes extensions.
+3. **`.github/workflows/generate-feed.yml`** — GitHub Actions workflow that runs the generator on every push to `main` and deploys the output to GitHub Pages.
+
+The live feed will be available at:
+```
+https://<owner>.github.io/<repo>/feed.xml
+```
+
+### Running the generator locally
+
+```bash
+pip install pyyaml
+python generate_feed.py --base-url https://<owner>.github.io/<repo>
+```
+
+The generated `feed.xml` will appear in the repository root.
+
+### Adding a new episode
+
+Add a new entry under the `episodes` list in `feed.yaml`:
+
+```yaml
+episodes:
+  - title: EP06-Your Episode Title
+    description: A short summary of the episode.
+    published: Thu, 16 Mar 2023 18:00:00 GMT
+    audio_file: /audio/TFIT06.mp3
+    duration: "00:30:00"
+    file_size_bytes: 43200000   # file size in bytes
+```
+
+Commit and push to `main`; the workflow will regenerate and redeploy `feed.xml` automatically.

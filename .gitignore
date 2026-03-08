@@ -1,0 +1,4 @@
+# Generated RSS feed — produced by generate_feed.py / GitHub Actions
+feed.xml
+# Deployment staging directory — produced by the GitHub Actions workflow
+_site/
